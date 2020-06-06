@@ -16,8 +16,8 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     this.usuario = new UsuarioModel();
 
-    this.usuario.email = 'martin.v.ortega@gmail.com';
-    /*this.usuario.nombre = 'Sergio Villagomez';
+    /*this.usuario.email = 'martin.v.ortega@gmail.com';
+    this.usuario.nombre = 'Sergio Villagomez';
     this.usuario.password = '123456'*/
   }
 
