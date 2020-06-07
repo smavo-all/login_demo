@@ -15,9 +15,10 @@ import { Router } from '@angular/router';
 export class RegistroComponent implements OnInit {
 
   usuario: UsuarioModel;
+  recordarme = false;
 
   constructor(private auth: AuthService,
-              private router: Router) { }
+    private router: Router) { }
 
   ngOnInit(): void {
     this.usuario = new UsuarioModel();
@@ -25,7 +26,7 @@ export class RegistroComponent implements OnInit {
 
   onSubmit(form: NgForm) {
     if (form.invalid) { return; }
-  
+
     Swal.fire({
       allowOutsideClick: false,
       icon: 'info',
@@ -34,20 +35,27 @@ export class RegistroComponent implements OnInit {
     Swal.showLoading();
 
     this.auth.nuevoUsuario(this.usuario)
-      .subscribe( resp =>{
+      .subscribe(resp => {
         console.log(resp);
         Swal.close();
+
+        if (this.recordarme) {
+          localStorage.setItem('email', this.usuario.email);
+        } else {
+          localStorage.removeItem('email');
+        }
+
         this.router.navigateByUrl('/home');
 
-      }, (err) =>{
-          console.log(err.error.error.message);
+      }, (err) => {
+        console.log(err.error.error.message);
 
-          Swal.fire({
-            icon: 'error',
-            title: 'Error al autenticar',
-            text: err.error.error.message
-          });
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al autenticar',
+          text: err.error.error.message
         });
-    }
+      });
+  }
 
 }
