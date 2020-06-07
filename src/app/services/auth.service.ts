@@ -7,44 +7,50 @@ import { UsuarioModel } from '../models/usuario.models';
 })
 export class AuthService {
 
-private url = 'https://identitytoolkit.googleapis.com/v1'
-private apikey = 'AIzaSyDp3rie0YbxZ4bXAPozJxoasU475J9Lj0A'
+  private url = 'https://identitytoolkit.googleapis.com/v1'
+  private apikey = 'AIzaSyDp3rie0YbxZ4bXAPozJxoasU475J9Lj0A'
 
-  // Sign up with email / password
+  // Sign up with email / password - 06/06/2020
   //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
 
 
-  // Sign in with email / password
+  // Sign in with email / password 06/06/2020
   //https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
 
-  constructor( private http:HttpClient) { 
+  constructor(private http: HttpClient) {
   }
 
-  logout(){
+  logout() {
+  }
+
+  login(usuario: UsuarioModel) {
+
+    const authData = {
+      ...usuario,
+      returnSecureToken: true
+    };
+
+    return this.http.post(
+      `${this.url}/accounts:signInWithPassword?key=${this.apikey}`,
+      authData
+    );
 
   }
 
-  login(usaurio: UsuarioModel){
+  nuevoUsuario(usuario: UsuarioModel) {
 
-  }
-
-  nuevoUsuario( usuario: UsuarioModel){
-    
     const authData = {
       /*email: usuario.email,
       password: usuario.password,*/
       ...usuario,
       returnSecureToken: true
-
     };
 
     return this.http.post(
-      `${ this.url }/accounts:signUp?key=${ this.apikey }`,
+      `${this.url}/accounts:signUp?key=${this.apikey}`,
       authData
     );
-    
+
   }
 
-
-  
 }
