@@ -14,7 +14,9 @@ export class AuthService {
   private apikey = 'AIzaSyDp3rie0YbxZ4bXAPozJxoasU475J9Lj0A'
   userToken: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              ) {
+                this.leerToken();
   }
 
   logout() {
@@ -34,7 +36,7 @@ export class AuthService {
       authData
     ).pipe(
       map(resp => {
-        console.log('Mapa RXJS');
+        //console.log('Mapa RXJS');
         this.guardarToken(resp['idToken']);
         return resp;
       })
@@ -82,6 +84,10 @@ export class AuthService {
 
   }
 
+  estaAutenticado(): boolean {
+   
+    return this.userToken.length > 2;
 
+  }
 
 }
