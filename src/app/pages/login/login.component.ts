@@ -4,6 +4,8 @@ import { UsuarioModel } from '../../models/usuario.models';
 import { NgForm } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,24 +16,38 @@ export class LoginComponent implements OnInit {
 
   usuario: UsuarioModel = new UsuarioModel;
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService,
+              private router: Router) { }
 
   ngOnInit(): void {
 
   }
+
   
   onSubmit(form: NgForm) {
+
     if (form.invalid) { return; }
 
-    /*console.log('Imprimir Formulario solo si es valido');
-    console.log(this.usuario);
-    console.log(form);*/
+    Swal.fire({
+      allowOutsideClick: false,
+      icon: 'info',
+      text: 'Espere por favor...'
+    });
+    Swal.showLoading();
 
     this.auth.login(this.usuario)
-      .subscribe( resp =>{
+      .subscribe(resp => {
         console.log(resp);
-      }, (err) =>{
-          console.log(err.error.error.message);
+        Swal.close();
+        this.router.navigateByUrl('/home');
+      }, (err) => {
+
+        console.log(err.error.error.message);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al autenticar',
+          text: err.error.error.message
+        });
       });
   }
 
