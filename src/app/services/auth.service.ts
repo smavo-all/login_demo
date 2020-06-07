@@ -29,7 +29,20 @@ private apikey = 'AIzaSyDp3rie0YbxZ4bXAPozJxoasU475J9Lj0A'
   }
 
   nuevoUsuario( usuario: UsuarioModel){
+    
+    const authData = {
+      /*email: usuario.email,
+      password: usuario.password,*/
+      ...usuario,
+      returnSecureToken: true
 
+    };
+
+    return this.http.post(
+      `${ this.url }/accounts:signUp?key=${ this.apikey }`,
+      authData
+    );
+    
   }
 
 
