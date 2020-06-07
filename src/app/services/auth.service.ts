@@ -19,9 +19,6 @@ export class AuthService {
                 this.leerToken();
   }
 
-  logout() {
-  }
-
   login(usuario: UsuarioModel) {
     // Sign up with email / password - 06/06/2020
     //https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API_KEY]
@@ -43,6 +40,10 @@ export class AuthService {
     );
   }
 
+  logout() {
+    localStorage.removeItem('token');
+  }
+
   nuevoUsuario(usuario: UsuarioModel) {
     // Sign in with email / password 06/06/2020
     //https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API_KEY]
@@ -59,7 +60,7 @@ export class AuthService {
       authData
     ).pipe(
       map(resp => {
-        console.log('Mapa RXJS');
+        //console.log('Mapa RXJS');
         this.guardarToken(resp['idToken']);
         return resp;
       })
